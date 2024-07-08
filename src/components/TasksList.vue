@@ -128,6 +128,7 @@ export default {
         due_date: '',
         status: '',
       },
+      baseUrl: 'http://127.0.0.1:8000/api/tasks/'
     };
   },
   mounted() {
@@ -136,7 +137,7 @@ export default {
   methods: {
     async fetchTasks() {
       this.loading = true;
-      await axios.get('http://127.0.0.1:8000/api/tasks')
+      await axios.get(this.baseUrl)
         .then(response => {
           this.tasks = response.data;
         })
@@ -155,7 +156,7 @@ export default {
     async deleteTask(task) {
       this.loading = true;
 
-      await axios.delete(`http://127.0.0.1:8000/api/tasks/${task.id}`)
+      await axios.delete(`${this.baseUrl}${task.id}`)
         .then(() => {
           this.fetchTasks();
           this.closeDetailsModal();
@@ -188,7 +189,7 @@ export default {
       };
     },
     updateTask() {
-      axios.put(`http://127.0.0.1:8000/api/tasks/${this.objectTask.id}`, this.objectTask)
+      axios.put(`${this.baseUrl}${this.objectTask.id}`, this.objectTask)
         .then(() => {
           this.fetchTasks();
           this.editingTask = null;
@@ -215,7 +216,7 @@ export default {
       };
     },
     addNewTask() {
-      axios.post('http://127.0.0.1:8000/api/tasks', this.objectTask)
+      axios.post(this.baseUrl, this.objectTask)
         .then(() => {
           this.fetchTasks();
           this.cancelEdit();
